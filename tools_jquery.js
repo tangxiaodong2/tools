@@ -1,7 +1,7 @@
-// 封装的函数都基于jQUERY 
+// 封装的函数都基于jQUERY
 // 使用前务必先引用jquery.js
-// 
-// 
+//
+//
 //
 
 
@@ -13,9 +13,11 @@ function hasClass(obj,classStr){
 }
 
 // 4-2添加类名
-// 
+//
 function addClass(obj,classStr){
-    if (!this.hasClass(obj,classStr)){obj.className += " " + classStr};
+    if (!this.hasClass(obj,classStr)){
+      obj.className += " " + classStr;
+    }
 }
 
 // 4-3删除类名
@@ -43,9 +45,9 @@ function siblings(obj){
         if(p.nodeType===1){
         	a.push(p);
         }
-        p=p.previousSibling//最后把上一个节点赋给p
+        p=p.previousSibling;//最后把上一个节点赋给p
     }
-    a.reverse()//把顺序反转一下 这样元素的顺序就是按先后的了
+    a.reverse();//把顺序反转一下 这样元素的顺序就是按先后的了
     var n=obj.nextSibling;//再取o的弟弟
     while(n){//判断有没有下一个弟弟结点 n是nextSibling的意思
         if(n.nodeType===1){
@@ -134,36 +136,36 @@ function filterParams(obj){
 //"人民币壹仟陆佰捌拾贰元整"
 //upDigit(-1693)
 //"欠人民币壹仟陆佰玖拾叁元整"
-function upDigit(n)  
-{  
-    var fraction = ['角', '分'];  
-    var digit = [  
-        '零', '壹', '贰', '叁', '肆',  
-        '伍', '陆', '柒', '捌', '玖'  
-    ];  
-    var unit = [  
-        ['元', '万', '亿'],  
-        ['', '拾', '佰', '仟']  
-    ];  
-    var head = n < 0 ? '欠' : '';  
-    n = Math.abs(n);  
-    var s = '';  
-    for (var i = 0; i < fraction.length; i++) {  
-        s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');  
-    }  
-    s = s || '整';  
-    n = Math.floor(n);  
-    for (var i = 0; i < unit[0].length && n > 0; i++) {  
-        var p = '';  
-        for (var j = 0; j < unit[1].length && n > 0; j++) {  
-            p = digit[n % 10] + unit[1][j] + p;  
-            n = Math.floor(n / 10);  
-        }  
-        s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;  
-    }  
-    return head + s.replace(/(零.)*零元/, '元')  
-        .replace(/(零.)+/g, '零')  
-        .replace(/^整$/, '零元整');  
+function upDigit(n)
+{
+    var fraction = ['角', '分'];
+    var digit = [
+        '零', '壹', '贰', '叁', '肆',
+        '伍', '陆', '柒', '捌', '玖'
+    ];
+    var unit = [
+        ['元', '万', '亿'],
+        ['', '拾', '佰', '仟']
+    ];
+    var head = n < 0 ? '欠' : '';
+    n = Math.abs(n);
+    var s = '';
+    for (var i = 0; i < fraction.length; i++) {
+        s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');
+    }
+    s = s || '整';
+    n = Math.floor(n);
+    for (var i = 0; i < unit[0].length && n > 0; i++) {
+        var p = '';
+        for (var j = 0; j < unit[1].length && n > 0; j++) {
+            p = digit[n % 10] + unit[1][j] + p;
+            n = Math.floor(n / 10);
+        }
+        s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
+    }
+    return head + s.replace(/(零.)*零元/, '元')
+        .replace(/(零.)+/g, '零')
+        .replace(/^整$/, '零元整');
 }
 
 // 5-4获取，设置url参数
@@ -184,7 +186,7 @@ function getUrlPrmt(url) {
     }
     return _rs;
 }
- 
+
 //设置url参数
 //setUrlPrmt({'a':1,'b':2})
 //a=1&b=2
@@ -215,7 +217,7 @@ function randomNumber(n1,n2){
     //返回0-255的随机整数，包括0，255
     else{
         return Math.round(Math.random()*255)
-    }  
+    }
 }
 
 // 5-6随机产生颜色
@@ -224,10 +226,10 @@ function randomColor(){
     //randomNumber是上面定义的函数
     //写法1
     return 'rgb(' + randomNumber(255) + ',' + randomNumber(255) + ',' + randomNumber(255) + ')';
-    
+
     //写法2
     return '#'+Math.random().toString(16).substring(2).substr(0,6);
-    
+
     //写法3
     var color='#';
     for(var i=0;i<6;i++){
@@ -294,12 +296,12 @@ img{
 写了这么多的操作，小伙伴应该发现了一问题，全局函数太多了
 
 //这样的话，封装了几个操作，就增加了几个全局函数，污染了全局变量，在开发中应该尽量避免全局变量。不说别的，如果一个项目，几个人开发，很有可能会造成命名的冲突。
- 
+
 function setUrlPrmt(obj){..}
 function getUrlPrmt(url){..}
 function upsetArr(obj){..}
- 
- 
+
+
 //所以，建议的封装姿势是
 var myJS={
     setUrlPrmt:function(obj){..},
@@ -312,8 +314,8 @@ var otherJS={
     getUrlPrmt:function(url){..},
     upsetArr:function(arr){..},
 }
- 
- 
+
+
 //最后，封装的效果是
 var myJS={
     //去除字符串空格
@@ -324,7 +326,7 @@ var myJS={
     repeatStr:function(str){..},
     .....
 }
- 
+
 //如果是es6的模块化开发，大家也可以
 let myJS={
     //去除字符串空格
@@ -354,7 +356,7 @@ String.prototype.trim=function(type){
 //比这样trim('  12345 6 8 96  ',1)调用方便。
 //但是，这样是不推荐的做法，这样就污染了原生对象String,别人创建的String也会被污染，造成不必要的开销。
 //更可怕的是，万一自己命名的跟原生的方法重名了，就被覆盖原来的方法了
-//String.prototype.substr=function(){console.log('asdasd')}  
+//String.prototype.substr=function(){console.log('asdasd')}
 //'asdasdwe46546'.substr()
 //asdasd
 //substr方法有什么作用，大家应该知道，不知道的可以去w3c看下
